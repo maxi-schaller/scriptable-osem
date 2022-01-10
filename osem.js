@@ -7,9 +7,9 @@ const APIURL = 'https://api.opensensemap.org/boxes/'
 if(args.widgetParameter){
   const osemBoxId = args.widgetParameter
   }
-else {
-  const osemBoxId = '605f244277a88b001ba8d6bb'
-  }
+else {}
+  const osemBoxId = '605f244277a88b001ba8d6bb' //GEHT IRGENDWIE NICHT!!!
+  
 
 // Festlegen der Datenabfrage URL
 function getOsemApiUrl(boxIdString){
@@ -18,19 +18,14 @@ function getOsemApiUrl(boxIdString){
 
 // Fehlerbehandlung
 function fehler(fehlertext){
-  const error = new ListWidget()
+  const errorList = new ListWidget()
   errorList.addText(felhertext)
   return null;
-}
-// Laden des Widgets oder von Fehlern
-if(errorList){
   let iosWidget = errorList
 }
-else{
-  let iosWidget = await createWidget()
-}
-
-if(!config.runsInWidget({
+// Laden des Widgets 
+let iosWidget = await createWidget()
+if(!config.runsInWidget){
  await iosWidget.presentSmall() 
 }
 Script.setWidget(iosWidget)
@@ -75,20 +70,21 @@ async function createWidget(items){
   widgetList.addSpacer()
   
   //Zeit der letzten Messung schreiben
+  
   var letzteMessungZeitpunkt = new Date(senseBoxDaten.sensors[0].lastMeasurement.createdAt)
   var gestern = new Date()
   gestern.setDate(gestern.getDate()-1)
   if(letzteMessungZeitpunkt < gestern){
-    var zeitText = widgetList.addText(letzteMessungZeitpunkt.toLocalString('de-DE'))
+    var zeitText = widgetList.addText(letzteMessungZeitpunkt.toLocaleString('de-DE'))
     zeitText.textColor = Color.red()
   }
   else {
-   var zeitText = widgetList.addText(letzteMessungZeitpunkt.toLocalString('de-DE', {hour: '2-digit', minute: '2-digit'}))
+   var zeitText = widgetList.addText(letzteMessungZeitpunkt.toLocaleString('de-DE', {hour: '2-digit', minute: '2-digit'}))
    zeitText.textColor = Color.blue()
   }
-  zeitText.font = Font.newSystemFont(8)
+  zeitText.font = Font.mediumSystemFont(8)
   
-  //return widgetList
+  return widgetList
   
   
   
